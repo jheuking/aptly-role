@@ -4,6 +4,7 @@
   apt:
     pkg: "{{ item }}"
     state: present
+    update_cache: yes
   with_items: "{{ required_libs }}"
   tags:
     skip_ansible_lint
@@ -40,7 +41,7 @@
     owner: "{{ aptly_user }}"
     group: "{{ aptly_group }}"
     mode: 0750
-  when: 'aptly_force_reinstall or aptly_check|failed or aptly_check.stdout == "{{ aptly_version }}"'
+  when: 'aptly_force_reinstall or aptly_check is failed or aptly_check.stdout == "{{ aptly_version }}"'
 
 - name: APTLY | Enable binary execution
   file:

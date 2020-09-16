@@ -37,4 +37,4 @@ aptly_gpg_path: "{{ aptly_install_path }}/gpg"
 aptly_disable_sign: "false"
 aptly_disable_verify: "false"
 
-# aptly_email:
+aptly_email: jheuking@beckhoff.com
