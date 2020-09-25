@@ -38,3 +38,22 @@
     src: aptly-upload
     dest: /usr/bin/aptly-upload
     mode: 0555
+
+- name: Install debian gitlab pipeline ssh key for uploading packages
+  authorized_key:
+    user: aptly
+    state: present
+    key: "{{item}}"
+    key_options: command="/usr/bin/aptly-upload",no-agent-forwarding,no-port-forwarding,no-pty,no-user-rc,no-X11-forwarding
+    exclusive: false
+  with_file:
+   - ssh/debian-gitlab.pub
+   - ssh/julianh-nb.pub
+
+- name: Install other ssh keys for debian user
+  authorized_key:
+    user: aptly
+    state: present
+    key: "{{item}}"
+  with_file:
+   - ssh/pbr.pub
