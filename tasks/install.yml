@@ -4,6 +4,7 @@
   apt:
     pkg: "{{ item }}"
     state: present
+    update_cache: yes
   with_items: "{{ required_libs }}"
   tags:
     skip_ansible_lint
