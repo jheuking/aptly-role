@@ -34,6 +34,7 @@ aptly_repositories_distribution: stretch
 
 # Security
 aptly_gpg_path: "{{ aptly_install_path }}/gpg"
+aptly_gpg_key_conf: "{{ aptly_gpg_path }}/gpg-key.conf"
 aptly_disable_sign: "false"
 aptly_disable_verify: "false"
 

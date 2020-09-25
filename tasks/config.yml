@@ -23,14 +23,14 @@
 - name: APTLY | Copy gpg batch file
   template:
     src: gpg.j2
-    dest: "/tmp/gpg"
+    dest: "{{ aptly_gpg_key_conf }}"
     mode: 0640
     owner: "{{ aptly_user }}"
     group: "{{ aptly_group }}"
 
 - name: APTLY | Set key query
   set_fact:
-    the_query: gpg --list-keys | grep 'pub ' | tail -1 | sed 's/pub   2048D\///g' | cut -d' ' -f1
+    the_query: gpg1 --list-keys | grep 'pub ' | tail -1 | sed 's/pub   2048D\///g' | cut -d ' ' -f1
 
 - name: APTLY | Obtain last key id
   shell: bash -lc "{{ the_query }}"
@@ -38,7 +38,7 @@
   become: true
   changed_when: false
   register: aptly_key_info
-  ignore_errors: true
+  ignore_errors: no
   tags:
     skip_ansible_lint
 ##gpg --list-keys
@@ -54,11 +54,9 @@
   set_fact:
     aptly_key_id: "{{ aptly_key_info.stdout }}"
 
-- name: APTLY | Generate gpg keys
-  command: gpg --batch --gen-key /tmp/gpg
-  become_user: "{{ aptly_user }}"
-  become: true
-  when: aptly_key_info is failed or aptly_key_info.stdout == ""
+- name: APTLY | check key id
+  shell: printf '%s\n' "GPG key is missing, please import an existing key or create a new one with 'gpg1 --batch --gen-key {{ aptly_gpg_key_conf  }}'"; exit 1
+  when: aptly_key_info.stdout == ""
 
 - name: APTLY | Obtain last key id
   shell: bash -lc "{{ the_query }}"
@@ -70,7 +68,7 @@
     skip_ansible_lint
 
 - name: APTLY | Export key
-  shell: gpg --export -a {{ aptly_user }} > {{ aptly_gpg_path }}/public.key
+  shell: gpg1 --export -a {{ aptly_user }} > {{ aptly_gpg_path }}/public.key
   become_user: "{{ aptly_user }}"
   become: true
   when: aptly_key_info is failed or aptly_key_info.stdout == ""
