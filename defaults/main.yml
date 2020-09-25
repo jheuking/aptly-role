@@ -27,10 +27,8 @@ aptly_packages_path: "/var/www/repositories"
 aptly_force_reinstall: false
 
 # Repositories
-aptly_repositories:
-  - release
-  - snapshot
-aptly_repositories_distribution: stretch
+aptly_debian_distributions:
+        - buster
 
 # Security
 aptly_gpg_path: "{{ aptly_install_path }}/gpg"

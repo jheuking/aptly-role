@@ -18,13 +18,13 @@
   command: >
     aptly repo create
     -config=/etc/aptly.conf
-    -distribution={{ aptly_repositories_distribution }}
     -component=main
     {{ item }}
   become_user: "{{ aptly_user }}"
   become: true
   ignore_errors: yes
-  with_items: "{{ aptly_repositories | difference(aptly_repo_list.stdout_lines) }}"
+  with_flattened:
+    - "{{ aptly_debian_distributions | difference(aptly_repo_list.stdout_lines) }}"
   notify: restart aptly
   tags:
     skip_ansible_lint
@@ -36,18 +36,19 @@
   changed_when: false
   register: aptly_publish_list
 
-- name: APTLY | Publish repositories
+- name: APTLY | Publish repository debian
   command: >
     aptly publish repo
     -config=/etc/aptly.conf
     -component=main
+    -distribution={{ item }}
     -gpg-key={{ aptly_key_id }}
     {{ item }}
-    {{ item }}
+    debian
   become_user: "{{ aptly_user }}"
   become: true
   ignore_errors: yes
-  with_items: "{{ aptly_repositories | difference(aptly_publish_list.stdout_lines) }}"
+  with_items: "{{ aptly_debian_distributions | difference(aptly_publish_list.stdout_lines) }}"
   notify: restart aptly
   tags:
     skip_ansible_lint
