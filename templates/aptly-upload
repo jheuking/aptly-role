@@ -1,0 +1,30 @@
+#!/bin/sh
+
+set -e
+set -u
+
+cleanup() {
+	rm -rf "${tmpdir-}"
+}
+trap cleanup INT TERM EXIT
+tmpdir="$(mktemp -d)"
+
+read -r version
+read -r json_data
+package="$(printf '%s\n' "${json_data}" | jq -r '.package')"
+cat > "${tmpdir}/${package}"
+
+update_repo() {
+	local _os="${1}"
+	shift
+	for distro in "$@"; do
+		aptly repo add ${distro} "${tmpdir}/${package}"
+		aptly publish --batch update ${distro} "${_os}"
+	done
+}
+
+for os in $(printf '%s\n' "${json_data}" | jq -r '.targets[].os'); do
+	distros="$(printf '%s\n' "${json_data}" \
+		| jq -r '.targets[] | select(.os | inside("'${os}'")) | .distributions | join(" ")')"
+	update_repo "${os}" ${distros}
+done

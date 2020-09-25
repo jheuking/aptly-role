@@ -32,3 +32,9 @@
     dest: /lib/systemd/system/aptly-api.service
     mode: 0644
   notify: restart aptly-api
+
+- name: APTLY | Copy aptly-upload script
+  template:
+    src: aptly-upload
+    dest: /usr/bin/aptly-upload
+    mode: 0555
