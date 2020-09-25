@@ -15,13 +15,13 @@ aptly_port: 8001
 aptly_api_port: 8002
 
 # start on boot
-aptly_service_enabled: yes
+aptly_service_enabled: no
 # current state: started, stopped
-aptly_service_state: started
+aptly_service_state: stopped
 
 # Files & Paths
 aptly_install_path: "/opt/aptly"
-aptly_packages_path: "/var/www/repositories"
+aptly_packages_path: "/tank/packages"
 
 ## Miscellaneous
 aptly_force_reinstall: false
@@ -36,4 +36,4 @@ aptly_gpg_key_conf: "{{ aptly_gpg_path }}/gpg-key.conf"
 aptly_disable_sign: "false"
 aptly_disable_verify: "false"
 
-# aptly_email:
+aptly_email: J.Heuking@beckhoff.com
