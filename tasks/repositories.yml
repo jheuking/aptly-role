@@ -43,7 +43,7 @@
     -component=main
     -distribution={{ item }}
     -gpg-key={{ aptly_key_id }}
-    {{ item }}
+    filesystem:debian:{{ item }}
     debian
   become_user: "{{ aptly_user }}"
   become: true
