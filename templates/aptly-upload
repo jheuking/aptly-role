@@ -19,7 +19,7 @@ update_repo() {
 	shift
 	for distro in "$@"; do
 		aptly repo add ${distro} "${tmpdir}/${package}"
-		aptly publish --batch update ${distro} "filesystem:${_os}:${_os}"
+		aptly publish --batch update ${distro} "${_os}"
 	done
 }
 

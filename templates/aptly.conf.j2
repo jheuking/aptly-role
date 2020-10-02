@@ -1,5 +1,5 @@
 {
-  "rootDir": "{{ aptly_db_path }}",
+  "rootDir": "{{ aptly_packages_path }}",
   "downloadConcurrency": 4,
   "downloadSpeedLimit": 0,
   "architectures": ["amd64","i386"],
@@ -12,12 +12,6 @@
   "downloadSourcePackages": false,
   "ppaDistributorID": "debian",
   "ppaCodename": "",
-  "FileSystemPublishEndpoints": {
-    "debian": {
-      "rootDir": "{{ aptly_packages_path }}",
-      "linkMethod": "symlink"
-    }
-  },
   "S3PublishEndpoints": {},
   "SwiftPublishEndpoints": {}
 }

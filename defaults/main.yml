@@ -22,7 +22,6 @@ aptly_service_state: stopped
 # Files & Paths
 aptly_install_path: "/opt/aptly"
 aptly_packages_path: "/tank/packages"
-aptly_db_path: "/tank/aptly-db"
 
 ## Miscellaneous
 aptly_force_reinstall: false
