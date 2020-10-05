@@ -20,8 +20,8 @@ aptly_service_enabled: no
 aptly_service_state: stopped
 
 # Files & Paths
-aptly_install_path: "/opt/aptly"
-aptly_packages_path: "/tank/packages"
+aptly_install_path: "/tank/aptly"
+aptly_packages_path: "/tank/aptly"
 
 ## Miscellaneous
 aptly_force_reinstall: false
